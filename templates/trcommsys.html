@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Transmitting and Receiving in Communication Systems{% endblock %}
+
+{% block content %}
+    <div class="middle">
+        <h1>
+            <img src="{{ url_for('static', filename='../static/trbanner.gif')}}"> 
+        </h1>
+        <p>
+            The transmitting and receiving of data and information is done through communication concepts and completed by network hardware and software. <br>
+            <b><u>Protocols and handshaking</u></b><br>
+            As established in <a href="{{ url_for('ccommsys') }}">characteristics of communication systems</a>, 
+            <b>protocols</b> are a set of rules that regulates transfer of data between computers.<br>
+            They define how the devices establish a link, how data is transmitted and the method for error detection and correction. <br>
+            Using the same protocol means that different computers and devices can all communicate with each other.<br>
+            The most comon protocols are:
+            <ol>
+                <li><b>TCP/IP (Transmission Control Protocol/Internet Protocol)</b>, which is TCP and IP working together to regulate data transmission and error detection.</li>
+                <li><b>HTTP (Hypertext Transfer Protocol)</b>: A protocol that allows users to send and retrieve files over the internet. Also allows access to web pages.</li>
+                <li><b>FTP (File Transfer Protocol)</b>: Enables a computer to connect remotely to a server. Mostly used for remote file access.</li>
+                <li><b>POP (Post Office Protocol)</b>: A protocol which specifies how email messages may be exchanged between a computer and the ISP.</li>
+            </ol>
+            Davis, S. <i>Information Processes and Technology - The HSC Course. </i> P89. Published 2004 <br>
+            <b><u>Networks</u></b><br>
+            A <b>network</b> is a number of computers connected together. Each device in a network is called a <b>node</b>.<br>
+            <b>Terminals</b> are devices that send and receive data from another computer. <br>
+            Networks are classified in two ways:<br>
+            <ol>
+                <li><b>Local area networks</b>: Connect devices within a building or campus together, and is linked with coaxial cable or fibre-optic cable.</li>
+                <li><b>Wide area networks</b>: Connect devices over long distances. They often consist of a mainframe computer called the <b>host</b> and a number of terminals.</li>
+            </ol>
+            <b><u>Network topologies</u></b><br>
+            There are many possible types of network topologies. The most common ones are star, bus and ring.<br>
+            <ol>
+                <li>A <b>star topology</b> has a central computer with each device connected directly to it.</li>
+                <li>A <b>bus topology</b> is an arrangement where all devices are attached to a direct line called the bus.</li>
+                <li>A <b>ring topology</b> is an arrancement where all devices are attached so that the path of in the shape of a continuous circle. Data flows only in one direction until data reaches its destination in this topology.</li>
+            </ol>
+            <img src="{{ url_for('static', filename='../static/networktopologies.jpg')}}"><br>
+            [Common network topologies] Powers, G.K. <i>Information Processes and Technology HSC Course. </i> P91. Published 2000.<br><br>
+            <b><u>Transmission media</u></b><br>
+            Data is transferred along a transmission medium, or hardware which allows data to pass through such as cables.<br>
+            Transmission media are either wired or wireless:<br>
+            <b>Wire transmission</b> transfers the data through wires and cables. Advantages of using cables are that they have high bandwidth with little interferance.
+            Disadvantages include: Taking up physical space, difficult to install and must be protected.<br>
+            Examples of wire transmission media include:<br>
+            <ol>
+                <li><b>Twisted-pair</b> cables: Consisting of two thin insulated copper wires which are twisted to form a spiral.</li>
+                <li><b>Coaxial cable (also known as coax)</b>: which is a single copper wire surrounded by an insulator, ground shielding and an outer insulator.</li>
+                <li><b>Fibre-optic cable</b>: Uses a light to carry data in small glass fibres. Fibre-optic is free from electromagnetic and radio interference, 
+                is very secure and can transmit data at very high speeds with few errors. However, they are fragile and easy to damage.</li>
+            </ol>
+            <img src="{{ url_for('static', filename='../static/wiretransmission.jpg') }}"><br>
+            [Wire transmission] Powers, G.K. <i>Information Processes and Technology HSC Course. </i> P95 Published 2000.<br><br>
+            <b>Wireless transmission</b> moves data through the air without the need of any sort of physical connection.<br>
+            Examples of wireless transmission are radio and television.<br>
+            Wireless transmission involves:<br>
+            <ol>
+                <li>A <b>microwave</b>, which is a high-frequency radio sent in a straight line from one antenna to another. Microwave transmission is faster than telephone lines and coaxial cables,
+                however the transmission can be affected by obstacles such as weather, trees and buildings.</li>
+                <li><b>Satellites</b>, which is a receiver and transmitter that is launched by a rocket and placed in orbit around the earth. 
+                    Signals are sent from the ground to the statellite, where the signal is sent to another place on the ground.</li>
+                <li><b>Wireless LANs</b> use radio waves as their transmission medium. Concerns about electromagnetic radiation have made it hard to popularise wireless networks.</li>
+                <li><b>Mobile phones</b>transmit data to a grid of cellular stations that are linked to the wire-transmission telephone network.</li>
+            </ol>
+        </p>
+    </div>
+{% endblock %}

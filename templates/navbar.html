@@ -1,0 +1,16 @@
+<div class="navbar">
+    <div class="logo">
+        <!-- <a style="all:unset", href="{{ url_for('index') }}">  -->
+        <img src="{{ url_for('static', filename='../static/WebsiteLogo.svg') }}" alt="Eddy Shao Logo">
+        <!-- </a> -->
+    </div>
+    <div class="iptdropdown">
+        <button class="iptbutton"><a href="{{ url_for('ipt') }}">IPT</a></button>
+        <div class="iptmenu">
+            <a href="{{ url_for('commsys') }}">Communication Systems</a>
+            <a href="{{ url_for('trcommsys') }}">Transaction Processing Systems</a>
+        </div>
+    </div>
+    <a href="{{ url_for('projects') }}">Projects</a></li>
+    <a href="{{ url_for('index') }}">Home</a></li>
+</div>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Characteristics of Communication Systems{% endblock %}
+
+{% block content %}
+    <div class="middle">
+        <h1>
+            <img src="{{ url_for('static', filename='../static/cbanner.gif')}}"> 
+        </h1>
+        <p>
+            Communication systems enable people to send and receive data and information. 
+            With the introduction of the telephone, radio, television and internet, our dependance on communication systems have greatly increased. <br>
+            All communication systems have <b>five basic components</b><br>
+            <ol>
+                <li>The <b>data source</b> produces the data to be sent</li>
+                <li>The <b>transmitter</b> encodes data into a signal suitable for a transmission medium.</li>
+                <li>The <b>transmission medium</b> is a device which allows the signal to be transmitted to the destination.</li>
+                <li>The <b>receiver</b> decodes the signal back into the original data, or an approximation of the data.</li>
+                <li>The <b>destination</b> is the receiver of the information.</li>
+            </ol>
+            <img src="{{ url_for('static', filename='../static/fivecomponents.jpg')}}"> <br>
+            [Five components of communication systems] Davis, S. <i>Information Processes and Technology - The HSC Course. </i> P229 Published 2004.<br><br>
+            A <b>protocol</b> is a set of rules that regulates transfer of data between computers.<br>
+            <b>Handshaking</b> is an agreement about which protocol to use, made by devices that communicate with each other. <br>
+            <b>Bandwidth</b> is the capacity of the transmission medium. A cable with high bandwidth can transfer more data than one with low bandwidth. 
+            An example of a high bandwidth transmission medium is <b>fibre-optic</b>.<br>
+            Speed of data transfer is measured by the number of <b>bits per second</b> or <b>baud rate</b>:<br>
+            <ul>
+                <li>Bits per second is the maximum number of bits that can be transmitted in one second.</li>
+                <li>Baud rate is the maximum number of data symbols or electrical signals that can be transmitted in one second.</li>
+            </ul>
+            <b><u>Error checking methods</u></b><br>
+            There are three methods commonly used for error checking:<br>
+            <ul>
+                <li><b>Parity checking</b> involves checking for errors using what is called a parity bit. 
+                    <li>Odd parity bit checks if the number of ones in the transmitted bits is odd.
+                    If the number of ones are even, then the parity bit is set to 1 to meet the criteria of odd parity. </li>
+                    <li>Even parity bit checks if the number of ones in the transmitted bit is even, and the same principle of odd parity applies here. 
+                        If there are an odd emount of ones, the parity bit is set to 1.</li></li>
+                <li><b>Checksum</b> involves the receiver checking for the total number of bits and comparing them to what was transmitted.</li>
+                <li><b>Cyclic redundancy check</b> is a method of checking for errors by using a divison process. The data is divided into predetermined lengths and divded by a fixed divisor.</li>
+            </ul>
+        </p>
+    </div>
+{% endblock %}

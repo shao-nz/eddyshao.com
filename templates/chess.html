@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Twitch Plays Chess</title>
+        <link rel="icon" type="image/png" href="photos/espentagon.png" />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap" rel="stylesheet"> 
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="iptdropdown">
+                <button class="iptbutton"><a href="ipt.html">IPT</a></button>
+                <div class="iptmenu">
+                    <a href="#">Project Management</a>
+                    <a href="#">Information Systems and Databases</a>
+                    <a href="commsys.html">Communication Systems</a>
+                    <a href="#">Transaction Processing Systems</a>
+                    <a href="#">Multimedia Systems</a>
+                </div>
+            </div>
+            <a href="projects.html">Projects</a></li>
+            <a href="index.html">Home</a></li>
+        <div class="logo"><img src="photos/WebsiteLogo.svg" alt="Eddy Shao Logo"></div>
+        </div>
+        <div class="middle">
+            <p>
+                <h1>Twitter Plays Chess</h1>
+                <h2>What is Twitter Plays Chess?</h2>
+                Ever heard of <b>Twitch Plays Pokemon</b>? A game of Pokemon Red was live 
+                streamed to the Twitch platform, where viewers would input commands into 
+                the stream's chat room, which would get executed by the background program and
+                would then be displayed on the Twitch stream.<br>
+                <b>Twitter Plays Chess</b> works the same way, except users are inputting 
+                commands to the program via tweets on Twitter instead of messages on Twitch.<br><br>
+                To simplify this, the program takes input from a tweet and uses that to 
+                make a chess move.
+                <h2>Prerequisites:</h2>
+                Because Twitter Plays Chess involves using Twitter to send moves, there are 
+                prerequisites for the user to be able to participate in the Chess game:
+                <ol>
+                    <li>Have access any type of computer device, such as desktop PC, laptop, tablet or smartphone</li>
+                    <li>Have access to internet which does not block access to Twitter</li>
+                </ol>
+                <h2>How to participate:</h2>
+                Users always play as the white side.<br>
+                This program takes chess moves in UCI format. This means that instead of typing 
+                traditional chess notation such as "Nf3" to make this move: <br>
+                <div class="chessimage"><img src="photos/chess/Nf3.jpg"></div>
+                The input should be something like "g1f3", which means to move the piece currently in
+                the square g1 to the square f3. This can be broken into two parts:
+                <ol>
+                    <li>The previous square of the piece, in this case "g1"</li>
+                    <li>The square the user wants the piece to move to, in this case "f3"</li>
+                </ol>
+                Tweets must be in the format of:<br>
+                <h4>@bwbchess #bwbchess (last move the computer made) (user's move)</h4>
+                where the @ mention, hashtag and both moves are separated by a space. <br>
+                When playing the very first move in the game, the user's input must be:
+                <h4>@bwbchess #bwbchess none (user's move)</h4>
+                If it is not exactly like this, simply put, nothing will happen on the chess board. <br>
+                <h2>Examples below:</h2>
+                <h3>1. Opening move of the game: </h3>
+                Tweet:<br>
+                <div class="chessimage"><img src="photos/chess/tweete2e4.jpg"></div>
+                Which gives us the move:
+                <div class="chessimage"><img src="photos/chess/openinge2e4.jpg"></div>
+                <h3>2. Taking pieces: </h3>
+                Tweet:<br>
+                <div class="chessimage"><img src="photos/chess/tweete4d5.jpg"></div>
+                Moves the pawn from square e4 to take on square d5 as represented by the green arrow: <br>
+                <div class="chessimage"><img src="photos/chess/takee4d5.jpg"></div>
+                Tweet: <br>
+                <h3>3. Castling: </h3>
+                From this position, castle kingside
+                <div class="chessimage"><img src="photos/chess/beforecastle.jpg"></div>
+                Tweet: <br>
+                <div class="chessimage"><img src="photos/chess/tweetcastle.jpg"></div>
+                Displayed move:
+                <div class="chessimage"><img src="photos/chess/castleks.jpg"></div>
+                These examples are just to give an understanding of the format of the user's tweets. <br>
+                The rest is the same as basic chess!
+            </p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,113 @@
+/* Body Styles */
+body {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+#content {
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: Left;
+}
+/* Navigation Bar Styles */
+.navbar {
+    overflow: hidden;
+    border-style: solid;
+    border-width: 1px 0px;
+    background-color: #BFA2DB;
+}
+.navbar a {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    padding: 14px 16px;
+    float: right;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+}
+.navbar .logo {
+    width: 182px;
+    height: 47px;
+    position: absolute;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 700;
+}
+/* Cursor hover colour for navbar */
+.navbar a:hover,
+.iptdropdown:hover .iptbutton {
+    background-color: #E0FFFF;
+    /* background-color: #CDF0EA; */
+    cursor: pointer;
+}
+/* Dropdown Menu */
+.iptdropdown {
+    float: right;
+    overflow: hidden;
+}
+.iptdropdown .iptbutton {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: black;
+    background-color: inherit;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    padding: inherit;
+    margin: 0;
+}
+.iptdropdown:hover .iptmenu {
+    display: block;
+}
+.iptmenu {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    display: none;
+    position: absolute;
+    box-shadow: 0px 2px 4px 0px;
+    right: 0;
+    background: white;
+}
+.iptmenu a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.iptmenu a:hover {
+    background-color: pink;
+}
+/* Header Styles */
+.header {
+    width: 100%;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 700;
+}
+
+/*Middle Section styles*/
+.middle {
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: Left;
+}
+h1 {
+    text-align: center;
+}
+h4 {
+    text-align: center;
+}
+.chessimage {
+    text-align:center;
+    height: auto; 
+    width: auto; 
+    max-width: 20%; 
+    max-height: 20%;
+    object-fit: contain;
+}
