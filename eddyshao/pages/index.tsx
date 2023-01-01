@@ -20,7 +20,7 @@ export default function Home() {
         <Navbar />
 
         <div className="flex justify-center md:pt-15">
-          <p className="text-xl">Hi, I&quot;m Eddy.</p>
+          <p className="text-xl">Hi, I&apos;m Eddy.</p>
         </div>
 
         <Footer />
