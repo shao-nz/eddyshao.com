@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [borgir, setBorgir] = useState(false);
@@ -6,9 +7,13 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="container mx-auto flex flex-wrap items-center justify-between py-2">
-        <a className="btn-ghost btn rounded-md text-3xl normal-case" href="/">
+        <Link
+          href="/"
+          className="btn-ghost btn rounded-md text-3xl normal-case"
+        >
           ES.
-        </a>
+        </Link>
+
         <button
           id="borgir-btn"
           className="btn-ghost btn rounded-md md:hidden"
@@ -38,20 +43,20 @@ export default function Navbar() {
             className={`mt-1 flex w-full flex-col gap-3 py-3 md:flex-grow md:flex-row md:justify-end`}
           >
             <li>
-              <a
+              <Link
                 href="projects"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
               >
                 Projects
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="contact"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
