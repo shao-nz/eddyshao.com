@@ -44,7 +44,7 @@ export default function Navbar() {
           >
             <li>
               <Link
-                href="projects"
+                href="#projects"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
               >
                 Projects
@@ -52,7 +52,15 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="contact"
+                href="#about"
+                className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#contact"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
               >
                 Contact
