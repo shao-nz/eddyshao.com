@@ -16,7 +16,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <div className="container flex h-screen w-screen max-w-none flex-col gap-5">
+      <div className="container flex h-auto w-screen max-w-none flex-col gap-5">
         <Navbar />
 
         <section className="md:pt-15 flex justify-center">
