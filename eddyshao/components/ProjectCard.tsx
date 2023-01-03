@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
+import githubLogo from "../public/github-mark.svg";
 
 type cardProps = {
   title: string;
@@ -35,7 +36,10 @@ export default function ProjectCard(props: cardProps) {
             <button className="btn-primary btn w-full">Live</button>
           </Link>
           <Link href={props.githubUrl} className="w-full" target="_blank">
-            <button className="btn-primary btn w-full">Github</button>
+            <button className="btn-primary btn w-full flex gap-2">
+              <Image src={githubLogo} alt="Github Logo" className="w-8 aspect-square object-scale-down"/>
+              <p className="flex-grow-0">Github</p>
+            </button>
           </Link>
         </div>
       </div>
