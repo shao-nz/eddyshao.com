@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <section className="flex flex-col justify-center md:px-20" id="about">
+    <section className="lg:m-auto lg:w-1/2 flex flex-col justify-center lg:px-20" id="about">
       <h1 className="py-3 text-center text-5xl font-medium">About</h1>
       <div>
         <p>
