@@ -14,7 +14,7 @@ type cardProps = {
 
 export default function ProjectCard(props: cardProps) {
   return (
-    <div className="card bg-base-100 shadow-2xl rounded-lg md:card-side">
+    <div className="card rounded-lg bg-base-100 shadow-2xl">
       <figure className="max-w-sm md:max-w-md">
         <Image
           src={props.img}
@@ -22,22 +22,37 @@ export default function ProjectCard(props: cardProps) {
           className="aspect-square object-scale-down"
         />
       </figure>
-      <div className="card-body flex flex-col justify-center md:max-w-xs">
-        <h2 className="card-title text-3xl">{props.title}</h2>
-        <p className="flex-grow-0">{props.description}</p> <br />
-        <h3 className="text-2xl">The stack:</h3>
-        <div className="flex flex-wrap pb-2 justify-left">
+      <div className="card-body flex flex-col justify-center gap-0 md:max-w-md">
+        <h2 className="card-title text-2xl font-bold md:text-3xl">
+          {props.title}
+        </h2>
+        <p className="flex-grow-0">{props.description}</p>
+        <h3 className="pt-2 text-xl font-medium md:text-2xl">The stack:</h3>
+        <div className="justify-left flex flex-wrap pb-2">
           {props.stack.map((item: string) => {
-            return <code key={item} className="border bg-violet-100 rounded-xl px-2 mt-2 mr-2">{item}</code>;
+            return (
+              <code
+                key={item}
+                className="mt-2 mr-2 rounded-xl border bg-violet-100 px-2 text-xs md:text-base"
+              >
+                {item}
+              </code>
+            );
           })}
         </div>
-        <div className="card-actions flex flex-col items-center">
+        <div className="card-actions flex flex-col items-center mt-auto">
           <Link href={props.liveUrl} className="w-full" target="_blank">
-            <button className="btn-primary btn btn-sm w-full">Live</button>
+            <button className="btn-primary btn-xs btn w-full md:btn-sm">
+              Live
+            </button>
           </Link>
           <Link href={props.githubUrl} className="w-full" target="_blank">
-            <button className="btn-primary btn btn-sm w-full flex gap-2">
-              <Image src={githubLogo} alt="Github Logo" className="w-6 aspect-square object-scale-down"/>
+            <button className="btn-primary btn-xs btn flex w-full gap-2 md:btn-sm">
+              <Image
+                src={githubLogo}
+                alt="Github Logo"
+                className="aspect-square w-4 object-scale-down md:w-6"
+              />
               <p className="flex-grow-0">Github</p>
             </button>
           </Link>
