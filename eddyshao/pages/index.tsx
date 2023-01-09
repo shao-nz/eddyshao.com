@@ -19,7 +19,7 @@ export default function Home() {
 
       <div className="container h-auto w-screen max-w-none bg-gradient-to-br from-violet-100 to-teal-100">
         <Navbar />
-        <div className="flex flex-col gap-8 px-20 ">
+        <div className="flex flex-col gap-8 px-20">
           <Header />
           <About />
           <Projects />
