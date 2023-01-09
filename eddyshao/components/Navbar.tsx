@@ -46,6 +46,7 @@ export default function Navbar() {
               <Link
                 href="#about"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
+                scroll={false}
               >
                 About
               </Link>
@@ -54,6 +55,7 @@ export default function Navbar() {
               <Link
                 href="#projects"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
+                scroll={false}
               >
                 Projects
               </Link>
@@ -62,6 +64,7 @@ export default function Navbar() {
               <Link
                 href="#contact"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
+                scroll={false}
               >
                 Contact
               </Link>
