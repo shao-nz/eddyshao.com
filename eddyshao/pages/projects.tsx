@@ -19,7 +19,7 @@ export default function Projects() {
         />
         <ProjectCard
           title="Gromp"
-          description="A multipurpose League of Legends Discord bot. View live game info, summoner profles and more."
+          description="A multipurpose League of Legends Discord bot. View live game info, summoner profiles and more."
           stack={["Python", "Next.js", "Tailwind CSS", "Vercel"]}
           img={grompSc}
           alt="Screenshot of Gromp"
