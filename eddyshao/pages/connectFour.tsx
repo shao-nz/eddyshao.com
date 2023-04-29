@@ -179,7 +179,7 @@ const ConnectFour = () => {
             </p>
           ) : (
             <p className="text-center text-2xl md:text-3xl">
-              {yellow ? "Yellow" : "Red"} player's turn
+              {yellow ? "Yellow" : "Red"} player&apos;s turn
             </p>
           )}
         </div>
