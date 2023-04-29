@@ -9,9 +9,10 @@ export const pusher = new Pusher({
 });
 
 export default async function handler(req: any, res: any) {
-  const gameBoard = req.body;
+  const { gameBoard, yellow } = req.body;
   const response = await pusher.trigger("connect4", "connect4-event", {
     gameBoard,
+    yellow,
   });
 
   res.json({ message: "Move made" });

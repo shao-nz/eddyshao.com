@@ -3,13 +3,16 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 
-const sendGameBoard = async (gameBoard: string[][]) => {
+const sendGameBoard = async (gameBoard: string[][], yellow: boolean) => {
   const res = await fetch("/api/pusher", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(gameBoard),
+    body: JSON.stringify({
+      gameBoard: JSON.stringify(gameBoard),
+      yellow: yellow,
+    }),
   });
 
   if (!res.ok) {
@@ -29,6 +32,7 @@ const ConnectFour = () => {
     const channel = pusher.subscribe("connect4");
     channel.bind("connect4-event", (data: any) => {
       setGameBoard(data.gameBoard);
+      setYellow(data.yellow);
     });
 
     return () => {
@@ -53,7 +57,7 @@ const ConnectFour = () => {
         break;
       }
     }
-    await sendGameBoard(gameBoard);
+    await sendGameBoard(gameBoard, yellow);
   };
 
   const transpose = (gameBoard: string[][]) => {
