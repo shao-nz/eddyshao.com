@@ -1,17 +1,45 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Pusher from "pusher-js";
+
+const sendGameBoard = async (gameBoard: string[][]) => {
+  const res = await fetch("/api/pusher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(gameBoard),
+  });
+
+  if (!res.ok) {
+    console.error("Failed to push game board");
+  }
+};
 
 const ConnectFour = () => {
   const [gameBoard, setGameBoard] = useState(
     Array.from({ length: 7 }, () => Array.from({ length: 6 }, () => "X"))
   );
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
+    });
+    const channel = pusher.subscribe("connect4");
+    channel.bind("connect4-event", (data: any) => {
+      setGameBoard(data.gameBoard);
+    });
+
+    return () => {
+      pusher.unsubscribe("connect4");
+    };
+  });
+
   const [yellow, setYellow] = useState(true);
   const [finished, setFinished] = useState(false);
 
-  const makeMove = (rowIndex: number, colIndex: number) => {
-    console.log(gameBoard);
-    console.log(rowIndex, colIndex);
+  const makeMove = async (rowIndex: number, colIndex: number) => {
     const playerSymbol = yellow ? "Y" : "R";
     let boardCopy = [...gameBoard];
     const row = boardCopy[colIndex];
@@ -21,11 +49,11 @@ const ConnectFour = () => {
         boardCopy[colIndex][col] = playerSymbol;
         setGameBoard(boardCopy);
         setYellow((yellow) => !yellow);
-        console.log(colIndex, col);
         setFinished(checkWin(col, colIndex, playerSymbol));
         break;
       }
     }
+    await sendGameBoard(gameBoard);
   };
 
   const transpose = (gameBoard: string[][]) => {
