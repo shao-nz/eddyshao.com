@@ -32,7 +32,7 @@ const ConnectFour = () => {
     const channel = pusher.subscribe("connect4");
     channel.bind("connect4-event", (data: any) => {
       setGameBoard(JSON.parse(data.gameBoard));
-      setYellow(data.yellow);
+      setYellow(!data.yellow);
     });
 
     return () => {
@@ -73,7 +73,6 @@ const ConnectFour = () => {
     // Check vertical win
     const currRow = gameBoard[colIndex].join("");
     if (currRow.includes(winCon)) {
-      console.log("vertical win");
       return true;
     }
 
@@ -81,7 +80,6 @@ const ConnectFour = () => {
     const transposed = transpose(gameBoard);
     const transposedRow = transposed[rowIndex].join("");
     if (transposedRow.includes(winCon)) {
-      console.log("horizontal win");
       return true;
     }
 
@@ -89,8 +87,6 @@ const ConnectFour = () => {
     let leftShift = "";
     let i = 3;
     let row, col;
-    console.log(gameBoard);
-    console.log(rowIndex, colIndex);
     while (i > -4) {
       row = colIndex - i;
       col = rowIndex - i;
@@ -115,7 +111,6 @@ const ConnectFour = () => {
       i--;
     }
     if (rightShift.includes(winCon)) {
-      console.log("rightshift win");
       return true;
     }
 
