@@ -90,7 +90,6 @@ const ConnectFour = () => {
     while (i > -4) {
       row = colIndex - i;
       col = rowIndex - i;
-      console.log(col, row);
       if (row >= 0 && row <= 6 && col >= 0 && col <= 5) {
         leftShift += gameBoard[row][col];
       }
@@ -132,7 +131,9 @@ const ConnectFour = () => {
               >
                 {col.map((row: string, rowIndex: number) => {
                   let background = "bg-white";
-                  const hover = yellow ? "bg-yellow-300" : "bg-red-600";
+                  const hover = yellow
+                    ? "hover:bg-yellow-300"
+                    : "hover:bg-red-600";
                   if (row == "Y") {
                     background = "bg-yellow-300";
                   } else if (row == "R") {
@@ -140,8 +141,8 @@ const ConnectFour = () => {
                   }
                   return (
                     <button
-                      className={`rounded-full ${background} p-3 transition-all sm:p-5 md:p-8 ${
-                        background == "bg-white" && `hover:${hover}`
+                      className={`rounded-full ${background} hoder: p-3 transition-all sm:p-5 md:p-8 ${
+                        background === "bg-white" && `${hover}`
                       }`}
                       key={rowIndex}
                       onClick={() => {
