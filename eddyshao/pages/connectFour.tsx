@@ -31,7 +31,7 @@ const ConnectFour = () => {
     });
     const channel = pusher.subscribe("connect4");
     channel.bind("connect4-event", (data: any) => {
-      setGameBoard(data.gameBoard);
+      setGameBoard(JSON.parse(data.gameBoard));
       setYellow(data.yellow);
     });
 
