@@ -5,15 +5,23 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        drop: {
+          "from": { transform: "translateY(-5rem)" },
+          "to": { transform: "translateY(0px)" },
+        },
+      },
+      animation: {
+        "connect-four-drop": "drop 1s linear",
+      },
+    },
   },
-  plugins: [
-    require("daisyui"),
-  ],
+  plugins: [require("daisyui")],
   daisyui: {
     styled: true,
     themes: ["pastel", "light"],
     logs: true,
     utils: true,
   },
-}
+};
