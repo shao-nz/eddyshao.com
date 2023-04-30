@@ -5,8 +5,8 @@ export default function Navbar() {
   const [borgir, setBorgir] = useState(false);
 
   return (
-    <nav className="navbar">
-      <div className="container mx-auto flex flex-wrap items-center justify-between py-2">
+    <nav className="navbar shadow-md bg-gradient-to-br from-teal-200 to-violet-200">
+      <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link
           href="/"
           className="btn-ghost btn rounded-md text-3xl normal-case"
@@ -40,7 +40,7 @@ export default function Navbar() {
           }`}
         >
           <ul
-            className={`mt-1 flex w-full flex-col gap-3 py-3 md:flex-grow md:flex-row md:justify-end`}
+            className={`mt-1 flex w-full flex-col gap-3 md:flex-grow md:flex-row md:justify-end`}
           >
             <li>
               <Link
