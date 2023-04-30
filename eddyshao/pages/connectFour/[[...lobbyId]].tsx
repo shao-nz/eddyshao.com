@@ -406,18 +406,40 @@ const ConnectFour = () => {
                 </div>
                 <div className="flex flex-col gap-2">
                   <h1 className="text-2xl">Start a lobby</h1>
-                  <button
+                  <label
+                    htmlFor={`${username !== "" && "createLobbyModal"}`}
                     className="btn-primary btn-sm btn w-fit rounded-md text-xs"
                     onClick={createLobby}
                   >
                     Create lobby
-                  </button>
+                  </label>
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      <>
+        <input type="checkbox" id="createLobbyModal" className="modal-toggle" />
+        <div className="modal modal-bottom sm:modal-middle">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Your lobby code:</h3>
+            <p className="py-4">{lobbyId}</p>
+            <div className="modal-action">
+              <label
+                htmlFor="createLobbyModal"
+                className="btn-sm btn rounded-md text-xs"
+                onClick={() => {
+                  navigator.clipboard.writeText(lobbyId);
+                }}
+              >
+                Copy to clipboard
+              </label>
+            </div>
+          </div>
+        </div>
+      </>
     </>
   );
 };
