@@ -44,7 +44,7 @@ const ConnectFour = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      if (joinId && !cancelJoin) {
+      if (joinId && !cancelJoin && !inGame) {
         setLobbyId(joinId as string);
         setShowJoinLobbyModal(true);
       }
@@ -239,6 +239,7 @@ const ConnectFour = () => {
         });
       });
     }
+    setInGame(true);
     setPlayerPiece("R");
     setMyTurn(false);
   };
