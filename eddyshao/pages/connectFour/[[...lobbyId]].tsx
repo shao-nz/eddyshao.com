@@ -52,7 +52,7 @@ const ConnectFour = () => {
       return;
     }
 
-    if (gameChannel && !inGame && !channelBinded) {
+    if (gameChannel && !channelBinded) {
       gameChannel.bind("client-joined-c4", (data: any) => {
         setMyTurn(false);
         setInGame(true);
