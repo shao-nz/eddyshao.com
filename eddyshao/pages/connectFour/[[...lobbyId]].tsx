@@ -347,7 +347,7 @@ const ConnectFour = () => {
       <div className="container h-full min-h-screen w-screen max-w-none bg-gradient-to-br from-violet-100 to-teal-100">
         <Navbar />
         <div className="flex h-full flex-col items-center justify-center gap-8 px-20">
-          <h1 className="pt-10 text-4xl md:w-3/4">Connect 4</h1>
+          <h1 className="pt-10 text-4xl text-center md:w-3/4">Connect 4</h1>
           {!usernameFinalised && alertContent && (
             <div className="alert alert-error md:w-3/4">
               <div>
