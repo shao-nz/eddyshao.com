@@ -3,60 +3,30 @@ import Navbar from "../../components/Navbar";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Pusher from "pusher-js";
+import Channel from "pusher-js/types/src/core/channels/channel";
 import { customAlphabet } from "nanoid";
 
-type Player = {
-  id: string;
-  currentTurn: boolean;
-};
-
-type gameData = {
-  gameBoard: string;
-  yellow: boolean;
-  players: Player[];
-};
-
-const sendGameData = async (
-  gameBoard: string[][],
-  yellow: boolean,
-  userId: string
-) => {
-  const player: Player = {
-    id: userId,
-    currentTurn: false,
-  };
-
-  const body: gameData = {
-    gameBoard: JSON.stringify(gameBoard),
-    yellow: yellow,
-    players: [player],
-  };
-  console.log(body);
-  // body.players.append(player)
-  const res = await fetch("/api/pusher", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!res.ok) {
-    console.error("Failed to push game board");
-  }
-};
+// Pusher.logToConsole = true;
 
 const ConnectFour = () => {
   const router = useRouter();
   const { joinId } = router.query;
-  const nanoidUser = customAlphabet("1234567890abcdef", 21);
-  const [userId, setUserId] = useState(nanoidUser());
+  const nanoidLobby = customAlphabet("1234567890abcdef", 6);
+  // const nanoidUser = customAlphabet("1234567890abcdef", 21);
+  // const [userId, setUserId] = useState(nanoidUser());
+  const [pusher, setPusher] = useState<Pusher>();
+  const [gameChannel, setGameChannel] = useState<Channel>();
   const [lobbyId, setLobbyId] = useState("");
   const [username, setUsername] = useState("");
+  const [opponent, setOpponent] = useState("");
   const [usernameFinalised, setUsernameFinalised] = useState(false);
   const [inGame, setInGame] = useState(false);
-  const [myTurn, setMyTurn] = useState(true);
+  const [myTurn, setMyTurn] = useState(false);
+  const [roomCreator, setRoomCreator] = useState(false);
   const [channelBinded, setChannelBinded] = useState(false);
+  const [playerPiece, setPlayerPiece] = useState("Y");
+  const [finished, setFinished] = useState(false);
+  const [winner, setWinner] = useState("");
   const [gameBoard, setGameBoard] = useState(
     Array.from({ length: 7 }, () => Array.from({ length: 6 }, () => "X"))
   );
@@ -64,49 +34,74 @@ const ConnectFour = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
-    });
-    const channel = pusher.subscribe("connect4");
-    if (!inGame && !channelBinded) {
-      channel.bind("connect4-event", (data: any) => {
-        setGameBoard(JSON.parse(data.gameBoard));
-        setYellow(!data.yellow);
-        if (data.currentPlayer === userId) {
+
+
+    if (gameChannel && !inGame && !channelBinded) {
+      gameChannel.bind("client-joined-c4", (data: any) => {
+        setMyTurn(false);
+        setInGame(true);
+        setOpponent(data.username);
+
+        if (roomCreator) {
+          gameChannel.trigger("client-joined-c4", {
+            username: username,
+          });
           setMyTurn(true);
-        } else {
-          setMyTurn(false);
         }
       });
+      setChannelBinded(true);
     }
 
-    return () => {
-      pusher.unsubscribe("connect4");
-    };
-  }, [router.isReady]);
+    if (gameChannel && channelBinded && !myTurn) {
+      gameChannel.bind("client-move-c4", (data: any) => {
+        setGameBoard(JSON.parse(data.gameBoard));
+        setWinner(data.winner);
+        setMyTurn(true);
+      });
+    }
+  });
 
-  const [yellow, setYellow] = useState(true);
-  const [finished, setFinished] = useState(false);
+  const usernameHandler = () => {
+    if (username.length === 0) {
+      alert("Username must not be empty!");
+      return;
+    }
+
+    setUsernameFinalised(true);
+  };
 
   const makeMove = async (colIndex: number) => {
     if (!myTurn) {
       return;
     }
-    const playerSymbol = yellow ? "Y" : "R";
+    let gameFinish = false;
     let boardCopy = [...gameBoard];
     const row = boardCopy[colIndex];
     let col = row.length - 1;
     for (col; col >= 0; col--) {
       if (row[col] == "X") {
-        boardCopy[colIndex][col] = playerSymbol;
+        boardCopy[colIndex][col] = playerPiece;
         setGameBoard(boardCopy);
-        console.log(gameBoard);
-        setYellow((yellow) => !yellow);
-        setFinished(checkWin(col, colIndex, playerSymbol));
+        gameFinish = checkWin(col, colIndex, playerPiece);
+        setFinished(gameFinish);
         break;
       }
     }
-    // await sendGameData(gameBoard, yellow, userId);
+
+    if (gameChannel) {
+      let currWinner = "";
+      if (gameFinish) {
+        currWinner = username;
+        setWinner(currWinner);
+      }
+      const sendMove = gameChannel.trigger("client-move-c4", {
+        gameBoard: JSON.stringify(gameBoard),
+        winner: currWinner,
+      });
+      if (sendMove) {
+        setMyTurn(false);
+      }
+    }
   };
 
   const transpose = (gameBoard: string[][]) => {
@@ -166,12 +161,76 @@ const ConnectFour = () => {
   };
 
   const createLobby = () => {
-    const nanoidLobby = customAlphabet("1234567890abcdef", 6);
-    setLobbyId(nanoidLobby());
+    if (username.length === 0) {
+      alert("Set a username first!");
+      return;
+    }
+
+    const currLobbyId = nanoidLobby();
+    // setLobbyId(currLobbyId);
+
+    const currPusher = new Pusher(
+      process.env.NEXT_PUBLIC_PUSHER_KEY as string,
+      {
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
+        authEndpoint: "/api/pusher/auth",
+      }
+    );
+
+    setPusher(currPusher);
+
+    let channelName = "private-connect4-" + currLobbyId;
+    const currGameChannel = currPusher.subscribe(channelName);
+    setGameChannel(currGameChannel);
+    setRoomCreator(true);
+  };
+
+  const joinLobby = () => {
+    if (username.length === 0) {
+      alert("Set a username first!");
+      return;
+    }
+
+    const currPusher = new Pusher(
+      process.env.NEXT_PUBLIC_PUSHER_KEY as string,
+      {
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
+        authEndpoint: "/api/pusher/auth",
+      }
+    );
+
+    setPusher(currPusher);
+
+    let channelName = "private-connect4-" + lobbyId;
+    const currGameChannel = currPusher.subscribe(channelName);
+    setGameChannel(currGameChannel);
+    if (currGameChannel) {
+      currGameChannel.bind("pusher:subscription_succeeded", () => {
+        currGameChannel.trigger("client-joined-c4", {
+          username: username,
+        });
+      });
+    }
+    setPlayerPiece("R");
+    setMyTurn(false);
+  };
+
+  const gameEnd = () => {
+    setOpponent("");
+    setMyTurn(false);
+    setInGame(false);
+    setRoomCreator(false);
+    // setGameBoard(
+    //   Array.from({ length: 7 }, () => Array.from({ length: 6 }, () => "X"))
+    // );
+    if (pusher) pusher.unsubscribe("private-connect4-" + lobbyId);
+    setGameChannel(undefined);
+    setChannelBinded(false);
   };
 
   const columnMouseEnter = (colIndex: number, enter: boolean) => {
-    const background = yellow ? "bg-yellow-200/90" : "bg-red-300/90";
+    const background =
+      playerPiece === "Y" ? "bg-yellow-200/90" : "bg-red-300/90";
     const columnChildren: any = Array.from(
       columnRefs.current[colIndex].children
     ).reverse();
@@ -228,6 +287,25 @@ const ConnectFour = () => {
     );
   };
 
+  const renderGameStatus = () => {
+    let status = "";
+    if (winner === "") {
+      if (myTurn) {
+        status = "Your turn";
+      } else {
+        status = `${opponent}'s turn`;
+      }
+    } else {
+      if (winner === username) {
+        status = "You won!";
+      } else {
+        status = "You lost!";
+      }
+    }
+
+    return <p>{status}</p>;
+  };
+
   return (
     <>
       <Head>
@@ -241,75 +319,78 @@ const ConnectFour = () => {
         <Navbar />
         <div className="flex h-full flex-col items-center justify-center gap-8 px-20">
           <h1 className="pt-10 text-4xl md:w-3/4">Connect 4</h1>
-          <div className="flex w-full flex-col gap-5 sm:flex-row md:w-3/4">
-            <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
-              {usernameFinalised ? (
-                <>
-                  <h1 className="text-2xl">Hi, {username}</h1>
-                  <button
-                    className="btn-primary btn-sm btn w-fit rounded-md text-xs"
-                    onClick={() => setUsernameFinalised(false)}
-                  >
-                    Reset username
-                  </button>
-                </>
-              ) : (
+          {inGame ? (
+            <>
+              <p>Playing against {opponent}</p>
+              {renderBoard()}
+              {renderGameStatus()}
+            </>
+          ) : (
+            <div className="flex w-full flex-col gap-5 sm:flex-row md:w-3/4">
+              <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
+                {usernameFinalised ? (
+                  <>
+                    <h1 className="text-2xl">Hi, {username}</h1>
+                    <button
+                      className="btn-primary btn-sm btn w-fit rounded-md text-xs"
+                      onClick={() => setUsernameFinalised(false)}
+                    >
+                      Reset username
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <h1 className="text-2xl">Set username</h1>
+                    <div className="flex flex-row items-center gap-2">
+                      <p className="text-sm">Username</p>
+                      <input
+                        className="input input-sm rounded-md"
+                        placeholder="Enter username"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                    </div>
+                    <button
+                      className="btn-primary btn-sm btn w-fit rounded-md text-xs"
+                      onClick={() => usernameHandler()}
+                    >
+                      Set username
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-2xl">Set username</h1>
+                  <h1 className="text-2xl">Join lobby</h1>
                   <div className="flex flex-row items-center gap-2">
-                    <p className="text-sm">Username</p>
+                    <p className="w-fit text-sm">Lobby code:</p>
                     <input
                       className="input input-sm rounded-md"
-                      placeholder="Enter username"
+                      placeholder="e.g. 123abc"
                       type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setLobbyId(e.target.value)}
                     />
                   </div>
                   <button
                     className="btn-primary btn-sm btn w-fit rounded-md text-xs"
-                    onClick={() => setUsernameFinalised(true)}
+                    onClick={joinLobby}
                   >
-                    Set username
+                    Join game
                   </button>
                 </div>
-              )}
-            </div>
-            <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-2xl">Join lobby</h1>
-                <div className="flex flex-row items-center gap-2">
-                  <p className="w-fit text-sm">Lobby code:</p>
-                  <input
-                    className="input input-sm rounded-md"
-                    placeholder="e.g. 123abc"
-                    type="text"
-                    onChange={(e) => setLobbyId(e.target.value)}
-                  />
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-2xl">Start a lobby</h1>
+                  <button
+                    className="btn-primary btn-sm btn w-fit rounded-md text-xs"
+                    onClick={createLobby}
+                  >
+                    Create lobby
+                  </button>
                 </div>
-                <button className="btn-primary btn-sm btn w-fit rounded-md text-xs">
-                  Join game
-                </button>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h1 className="text-2xl">Start a lobby</h1>
-                <button className="btn-primary btn-sm btn w-fit rounded-md text-xs">
-                  Create lobby
-                </button>
               </div>
             </div>
-          </div>
-
-          {/* {renderBoard()} */}
-          {/* {finished ? (
-            <p className="text-center text-3xl md:text-4xl">
-              {yellow ? "Red" : "Yellow"} won!
-            </p>
-          ) : (
-            <p className="text-center text-2xl md:text-3xl">
-              {yellow ? "Yellow" : "Red"} player&apos;s turn
-            </p>
-          )} */}
+          )}
         </div>
       </div>
     </>
