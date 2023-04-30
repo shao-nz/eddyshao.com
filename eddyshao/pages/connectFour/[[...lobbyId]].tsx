@@ -605,12 +605,12 @@ const ConnectFour = () => {
                 onClick={() => {
                   usernameHandler(true);
                   if (username !== "") {
-                    // setShowJoinLobbyModal(false);
-                    // joinLobby(lobbyId);
+                    setShowJoinLobbyModal(false);
+                    joinLobby(lobbyId);
                   }
                 }}
               >
-                Start game
+                Join game
               </label>
             </div>
           </div>
