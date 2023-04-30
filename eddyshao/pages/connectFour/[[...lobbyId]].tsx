@@ -27,6 +27,7 @@ const ConnectFour = () => {
   const [playerPiece, setPlayerPiece] = useState("Y");
   const [finished, setFinished] = useState(false);
   const [winner, setWinner] = useState("");
+  const [alertContent, setAlertContent] = useState("");
   const [gameBoard, setGameBoard] = useState(
     Array.from({ length: 7 }, () => Array.from({ length: 6 }, () => "X"))
   );
@@ -34,7 +35,6 @@ const ConnectFour = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-
 
     if (gameChannel && !inGame && !channelBinded) {
       gameChannel.bind("client-joined-c4", (data: any) => {
@@ -63,7 +63,7 @@ const ConnectFour = () => {
 
   const usernameHandler = () => {
     if (username.length === 0) {
-      alert("Username must not be empty!");
+      setAlertContent("Username must not be empty!");
       return;
     }
 
@@ -162,12 +162,12 @@ const ConnectFour = () => {
 
   const createLobby = () => {
     if (username.length === 0) {
-      alert("Set a username first!");
+      setAlertContent("Set a username first!");
       return;
     }
 
     const currLobbyId = nanoidLobby();
-    // setLobbyId(currLobbyId);
+    setLobbyId(currLobbyId);
 
     const currPusher = new Pusher(
       process.env.NEXT_PUBLIC_PUSHER_KEY as string,
@@ -186,8 +186,13 @@ const ConnectFour = () => {
   };
 
   const joinLobby = () => {
+    if (lobbyId.length === 0) {
+      setAlertContent("Enter lobby code.");
+      return;
+    }
+
     if (username.length === 0) {
-      alert("Set a username first!");
+      setAlertContent("Set a username first!");
       return;
     }
 
@@ -319,6 +324,26 @@ const ConnectFour = () => {
         <Navbar />
         <div className="flex h-full flex-col items-center justify-center gap-8 px-20">
           <h1 className="pt-10 text-4xl md:w-3/4">Connect 4</h1>
+          {!usernameFinalised && alertContent && (
+            <div className="alert alert-error md:w-3/4">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 flex-shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{alertContent}</span>
+              </div>
+            </div>
+          )}
           {inGame ? (
             <>
               <p>Playing against {opponent}</p>
