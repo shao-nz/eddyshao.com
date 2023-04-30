@@ -23,25 +23,41 @@ const ConnectFour = () => {
   const [inGame, setInGame] = useState(false);
   const [myTurn, setMyTurn] = useState(false);
   const [roomCreator, setRoomCreator] = useState(false);
+  const [createdWaiting, setCreatedWaiting] = useState(false);
   const [channelBinded, setChannelBinded] = useState(false);
   const [playerPiece, setPlayerPiece] = useState("Y");
   const [finished, setFinished] = useState(false);
   const [winner, setWinner] = useState("");
+  const [modalAlertContent, setModalAlertContent] = useState("");
   const [alertContent, setAlertContent] = useState("");
+  const [showCreateLobbyModal, setShowCreateLobbyModal] = useState(false);
+  const [showJoinLobbyModal, setShowJoinLobbyModal] = useState(false);
+  const [cancelJoin, setCancelJoin] = useState(false);
   const [gameBoard, setGameBoard] = useState(
     Array.from({ length: 7 }, () => Array.from({ length: 6 }, () => "X"))
   );
   const columnRefs = useRef(new Array());
 
+  // const basePath = "http://localhost:3001";
+  const basePath = "https://www.eddyshao.com"
+  // const basePath = "https://eddyshao-com-git-dev-shao.vercel.app"
+
   useEffect(() => {
-    if (!router.isReady) return;
+    if (router.isReady) {
+      if (joinId && !cancelJoin) {
+        setLobbyId(joinId as string);
+        setShowJoinLobbyModal(true);
+      }
+    } else {
+      return;
+    }
 
     if (gameChannel && !inGame && !channelBinded) {
       gameChannel.bind("client-joined-c4", (data: any) => {
         setMyTurn(false);
         setInGame(true);
         setOpponent(data.username);
-
+        setShowCreateLobbyModal(false);
         if (roomCreator) {
           gameChannel.trigger("client-joined-c4", {
             username: username,
@@ -56,14 +72,19 @@ const ConnectFour = () => {
       gameChannel.bind("client-move-c4", (data: any) => {
         setGameBoard(JSON.parse(data.gameBoard));
         setWinner(data.winner);
+        setFinished(data.winner !== "");
         setMyTurn(true);
       });
     }
   });
 
-  const usernameHandler = () => {
+  const usernameHandler = (modal: boolean) => {
     if (username.length === 0) {
-      setAlertContent("Username must not be empty!");
+      if (modal) {
+        setModalAlertContent("Username must not be empty!");
+      } else {
+        setAlertContent("Username must not be empty!");
+      }
       return;
     }
 
@@ -169,6 +190,8 @@ const ConnectFour = () => {
     const currLobbyId = nanoidLobby();
     setLobbyId(currLobbyId);
 
+    setShowCreateLobbyModal(true);
+
     const currPusher = new Pusher(
       process.env.NEXT_PUBLIC_PUSHER_KEY as string,
       {
@@ -185,7 +208,7 @@ const ConnectFour = () => {
     setRoomCreator(true);
   };
 
-  const joinLobby = () => {
+  const joinLobby = (lobbyId: string) => {
     if (lobbyId.length === 0) {
       setAlertContent("Enter lobby code.");
       return;
@@ -372,13 +395,12 @@ const ConnectFour = () => {
                         className="input input-sm rounded-md"
                         placeholder="Enter username"
                         type="text"
-                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
                     <button
                       className="btn-primary btn-sm btn w-fit rounded-md text-xs"
-                      onClick={() => usernameHandler()}
+                      onClick={() => usernameHandler(false)}
                     >
                       Set username
                     </button>
@@ -399,7 +421,7 @@ const ConnectFour = () => {
                   </div>
                   <button
                     className="btn-primary btn-sm btn w-fit rounded-md text-xs"
-                    onClick={joinLobby}
+                    onClick={() => joinLobby(lobbyId)}
                   >
                     Join game
                   </button>
@@ -407,7 +429,6 @@ const ConnectFour = () => {
                 <div className="flex flex-col gap-2">
                   <h1 className="text-2xl">Start a lobby</h1>
                   <label
-                    htmlFor={`${username !== "" && "createLobbyModal"}`}
                     className="btn-primary btn-sm btn w-fit rounded-md text-xs"
                     onClick={createLobby}
                   >
@@ -421,20 +442,175 @@ const ConnectFour = () => {
       </div>
 
       <>
-        <input type="checkbox" id="createLobbyModal" className="modal-toggle" />
-        <div className="modal modal-bottom sm:modal-middle">
+        <div
+          className={`modal modal-bottom sm:modal-middle ${
+            showCreateLobbyModal && "modal-open"
+          }`}
+        >
           <div className="modal-box">
-            <h3 className="text-lg font-bold">Your lobby code:</h3>
-            <p className="py-4">{lobbyId}</p>
-            <div className="modal-action">
+            <label
+              className="btn-primary btn-sm btn-circle btn absolute right-4 top-4"
+              onClick={() => {
+                pusher?.unsubscribe("private-connect4-" + lobbyId);
+                setShowCreateLobbyModal(false);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </label>
+            <h3 className="text-lg font-bold">Lobby created!</h3>
+            <div className="pt-3">
+              Lobby code:
+              <br />
               <label
-                htmlFor="createLobbyModal"
-                className="btn-sm btn rounded-md text-xs"
+                className="group btn-primary btn-sm btn rounded-md bg-primary/25 text-xs hover:bg-primary/75"
                 onClick={() => {
+                  setCreatedWaiting(true);
                   navigator.clipboard.writeText(lobbyId);
                 }}
               >
-                Copy to clipboard
+                {lobbyId}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="ml-1 h-6 w-6 opacity-0 group-hover:opacity-100"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z"
+                  />
+                </svg>
+              </label>
+            </div>
+            <div className="py-1">
+              Lobby link: <br />
+              <label
+                className="group btn-primary btn-sm btn rounded-md bg-primary/25 text-xs lowercase hover:bg-primary/75"
+                onClick={() => {
+                  setCreatedWaiting(true);
+                  navigator.clipboard.writeText(
+                    `${basePath + router.asPath + "?joinId=" + lobbyId}`
+                  );
+                }}
+              >
+                {`${basePath + router.asPath + "?joinId=" + lobbyId}`}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="ml-1 h-6 w-6 opacity-0 group-hover:opacity-100"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z"
+                  />
+                </svg>
+              </label>
+            </div>
+            {createdWaiting && (
+              <div className="flex justify-center pt-3">
+                <button
+                  className="loading btn-info btn-sm btn cursor-not-allowed rounded-md
+                text-sm"
+                >
+                  Waiting for another player to join...
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+
+      <>
+        <div
+          className={`modal modal-bottom sm:modal-middle ${
+            showJoinLobbyModal && "modal-open"
+          }`}
+        >
+          <div className="modal-box">
+            {!usernameFinalised && modalAlertContent && (
+              <div className="alert alert-error md:w-3/4">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 flex-shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>{modalAlertContent}</span>
+                </div>
+              </div>
+            )}
+            <label
+              className="btn-primary btn-sm btn-circle btn absolute right-4 top-4"
+              onClick={() => {
+                setCancelJoin(true);
+                setShowJoinLobbyModal(false);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </label>
+            <h3 className="text-lg font-bold">Joining game: {lobbyId}</h3>
+            <div className="flex flex-row items-center gap-2">
+              <p className="text-sm">Username</p>
+              <input
+                className="input-bordered input-primary input input-sm rounded-md"
+                placeholder="Enter username"
+                type="text"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="modal-action">
+              <label
+                className="btn-sm btn rounded-md text-xs"
+                onClick={() => {
+                  usernameHandler(true);
+                  if (username !== "") {
+                    // setShowJoinLobbyModal(false);
+                    // joinLobby(lobbyId);
+                  }
+                }}
+              >
+                Start game
               </label>
             </div>
           </div>
