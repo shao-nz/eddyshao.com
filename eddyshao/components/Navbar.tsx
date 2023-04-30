@@ -5,7 +5,7 @@ export default function Navbar() {
   const [borgir, setBorgir] = useState(false);
 
   return (
-    <nav className="navbar shadow-md bg-gradient-to-br from-teal-200 to-violet-200">
+    <nav className="navbar bg-gradient-to-br from-teal-200 to-violet-200 shadow-md">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link
           href="/"
@@ -36,7 +36,7 @@ export default function Navbar() {
         </button>
         <div
           className={`w-full flex-grow md:flex md:w-auto ${
-            borgir ? "flex border-b border-black" : "hidden"
+            borgir ? "flex" : "hidden"
           }`}
         >
           <ul
