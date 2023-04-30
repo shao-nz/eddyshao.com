@@ -106,7 +106,7 @@ const ConnectFour = () => {
         break;
       }
     }
-    await sendGameData(gameBoard, yellow, userId);
+    // await sendGameData(gameBoard, yellow, userId);
   };
 
   const transpose = (gameBoard: string[][]) => {
@@ -239,25 +239,25 @@ const ConnectFour = () => {
 
       <div className="container h-full min-h-screen w-screen max-w-none bg-gradient-to-br from-violet-100 to-teal-100">
         <Navbar />
-        <h1 className="pb-20 text-center text-4xl">Connect 4</h1>
         <div className="flex h-full flex-col items-center justify-center gap-8 px-20">
-          {/* <div className="flex w-2/3 flex-col lg:flex-row lg:justify-between">
-            <div className="flex flex-col items-start gap-5">
+          <h1 className="pt-10 text-4xl md:w-3/4">Connect 4</h1>
+          <div className="flex w-full flex-col gap-5 sm:flex-row md:w-3/4">
+            <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
               {usernameFinalised ? (
                 <>
-                  <h1 className="text-3xl">Hi, {username}</h1>
+                  <h1 className="text-2xl">Hi, {username}</h1>
                   <button
-                    className="btn-primary btn-sm btn rounded-md"
+                    className="btn-primary btn-sm btn w-fit rounded-md text-xs"
                     onClick={() => setUsernameFinalised(false)}
                   >
                     Reset username
                   </button>
                 </>
               ) : (
-                <>
-                  <h1 className="text-3xl">Set username</h1>
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-2xl">Set username</h1>
                   <div className="flex flex-row items-center gap-2">
-                    <p>Username</p>
+                    <p className="text-sm">Username</p>
                     <input
                       className="input input-sm rounded-md"
                       placeholder="Enter username"
@@ -265,40 +265,42 @@ const ConnectFour = () => {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
-                    <button
-                      className="btn-primary btn-sm btn rounded-md"
-                      onClick={() => setUsernameFinalised(true)}
-                    >
-                      Set username
-                    </button>
                   </div>
-                </>
+                  <button
+                    className="btn-primary btn-sm btn w-fit rounded-md text-xs"
+                    onClick={() => setUsernameFinalised(true)}
+                  >
+                    Set username
+                  </button>
+                </div>
               )}
             </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="pb-5 text-3xl">Join lobby</h1>
+            <div className="min-w-1/2 flex w-1/2 flex-col gap-5">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-2xl">Join lobby</h1>
                 <div className="flex flex-row items-center gap-2">
-                  <p>Lobby code:</p>
+                  <p className="w-fit text-sm">Lobby code:</p>
                   <input
                     className="input input-sm rounded-md"
                     placeholder="e.g. 123abc"
                     type="text"
                     onChange={(e) => setLobbyId(e.target.value)}
                   />
-                  <button className="btn-primary btn-sm btn rounded-md">
-                    Join game
-                  </button>
                 </div>
+                <button className="btn-primary btn-sm btn w-fit rounded-md text-xs">
+                  Join game
+                </button>
               </div>
-              <h1 className="text-3xl">Start a lobby</h1>
-              <button className="btn-primary btn-sm btn w-fit rounded-md">
-                Create lobby
-              </button>
+              <div className="flex flex-col gap-2">
+                <h1 className="text-2xl">Start a lobby</h1>
+                <button className="btn-primary btn-sm btn w-fit rounded-md text-xs">
+                  Create lobby
+                </button>
+              </div>
             </div>
           </div>
-           */}
-          {renderBoard()}
+
+          {/* {renderBoard()} */}
           {/* {finished ? (
             <p className="text-center text-3xl md:text-4xl">
               {yellow ? "Red" : "Yellow"} won!
