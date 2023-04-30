@@ -171,7 +171,7 @@ const ConnectFour = () => {
   };
 
   const columnMouseEnter = (colIndex: number, enter: boolean) => {
-    const background = yellow ? "bg-yellow-300" : "bg-red-600";
+    const background = yellow ? "bg-yellow-200/90" : "bg-red-300/90";
     const columnChildren: any = Array.from(
       columnRefs.current[colIndex].children
     ).reverse();
@@ -191,7 +191,7 @@ const ConnectFour = () => {
   const renderBoard = () => {
     return (
       <div
-        className="w-max-content flex flex-row rounded-2xl bg-blue-500 sm:gap-1 sm:rounded-3xl select-none"
+        className="w-max-content flex select-none flex-row rounded-2xl bg-blue-600 shadow-2xl sm:gap-1 sm:rounded-3xl"
         style={{ pointerEvents: finished || !myTurn ? "none" : "auto" }}
       >
         {gameBoard.map((col, colIndex) => {
@@ -209,13 +209,13 @@ const ConnectFour = () => {
               {col.map((row: string, rowIndex: number) => {
                 let background = "bg-white";
                 if (row == "Y") {
-                  background = "bg-yellow-300";
+                  background = "bg-yellow-400";
                 } else if (row == "R") {
                   background = "bg-red-600";
                 }
                 return (
                   <button
-                    className={`rounded-full ${background} animation-connect-four-drop duration-750 p-4 transition-all sm:p-6 md:p-9`}
+                    className={`rounded-full ${background} animation-connect-four-drop duration-750 p-4 shadow-2xl transition-all sm:p-6 md:p-9`}
                     key={rowIndex}
                     value={row}
                   ></button>
