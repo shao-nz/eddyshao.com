@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Rubik } from "@next/font/google";
+import { Rubik } from "next/font/google";
 import Script from "next/script";
 
 const rubik = Rubik({ subsets: ["latin"] });
