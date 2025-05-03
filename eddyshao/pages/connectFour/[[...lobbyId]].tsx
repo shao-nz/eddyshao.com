@@ -39,7 +39,7 @@ const ConnectFour = () => {
   const columnRefs = useRef(new Array());
 
   // const basePath = "http://localhost:3001";
-  const basePath = "https://www.eddyshao.com"
+  const basePath = "https://www.eddyshao.com";
   // const basePath = "https://eddyshao-com-git-dev-shao.vercel.app"
 
   useEffect(() => {
@@ -287,7 +287,9 @@ const ConnectFour = () => {
             <div
               className="flex w-full cursor-pointer flex-col items-center gap-1 rounded-2xl p-1 hover:bg-blue-400 sm:gap-3 sm:rounded-3xl sm:p-2"
               key={colIndex}
-              ref={(e) => (columnRefs.current[colIndex] = e)}
+              ref={(e) => {
+                columnRefs.current[colIndex] = e;
+              }}
               onMouseEnter={() => columnMouseEnter(colIndex, true)}
               onMouseLeave={() => columnMouseEnter(colIndex, false)}
               onClick={() => {
@@ -347,7 +349,7 @@ const ConnectFour = () => {
       <div className="container h-full min-h-screen w-screen max-w-none bg-gradient-to-br from-violet-100 to-teal-100">
         <Navbar />
         <div className="flex h-full flex-col items-center justify-center gap-8 px-20">
-          <h1 className="pt-10 text-4xl text-center md:w-3/4">Connect 4</h1>
+          <h1 className="pt-10 text-center text-4xl md:w-3/4">Connect 4</h1>
           {!usernameFinalised && alertContent && (
             <div className="alert alert-error md:w-3/4">
               <div>
