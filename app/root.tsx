@@ -10,11 +10,8 @@ import {
 import "./styles/globals.css";
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const env = (context as any)?.cloudflare?.env as
-    | Record<string, string>
-    | undefined;
   return {
-    gaMeasurementId: env?.GA_MEASUREMENT_ID || "",
+    gaMeasurementId: context.cloudflare.env.GA_MEASUREMENT_ID || "",
   };
 };
 

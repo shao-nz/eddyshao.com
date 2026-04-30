@@ -14,13 +14,10 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const env = (context as any)?.cloudflare?.env as
-    | Record<string, string>
-    | undefined;
   return {
-    emailjsServiceId: env?.EMAILJS_SERVICE_ID || "",
-    emailjsTemplateId: env?.EMAILJS_TEMPLATE_ID || "",
-    emailjsPublicKey: env?.EMAILJS_PUBLIC_KEY || "",
+    emailjsServiceId: context.cloudflare.env.EMAILJS_SERVICE_ID || "",
+    emailjsTemplateId: context.cloudflare.env.EMAILJS_TEMPLATE_ID || "",
+    emailjsPublicKey: context.cloudflare.env.EMAILJS_PUBLIC_KEY || "",
   };
 };
 

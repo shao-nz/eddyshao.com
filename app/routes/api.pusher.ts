@@ -2,17 +2,15 @@ import type { ActionFunctionArgs } from "react-router";
 import Pusher from "pusher";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
-  const env = (context as any)?.cloudflare?.env as Record<string, string>;
-
   const pusher = new Pusher({
-    appId: env.PUSHER_APP_ID,
-    key: env.PUSHER_KEY,
-    secret: env.PUSHER_SECRET,
-    cluster: env.PUSHER_CLUSTER,
+    appId: context.cloudflare.env.PUSHER_APP_ID,
+    key: context.cloudflare.env.PUSHER_KEY,
+    secret: context.cloudflare.env.PUSHER_SECRET,
+    cluster: context.cloudflare.env.PUSHER_CLUSTER,
     useTLS: true,
   });
 
-  const { gameBoard, yellow } = await request.json();
+  const { gameBoard, yellow } = (await request.json()) as { gameBoard: unknown; yellow: boolean };
   await pusher.trigger("connect4", "connect4-event", {
     gameBoard,
     yellow,
