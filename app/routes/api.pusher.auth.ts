@@ -2,13 +2,11 @@ import type { ActionFunctionArgs } from "react-router";
 import Pusher from "pusher";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
-  const env = (context as any)?.cloudflare?.env as Record<string, string>;
-
   const pusher = new Pusher({
-    appId: env.PUSHER_APP_ID,
-    key: env.PUSHER_KEY,
-    secret: env.PUSHER_SECRET,
-    cluster: env.PUSHER_CLUSTER,
+    appId: context.cloudflare.env.PUSHER_APP_ID,
+    key: context.cloudflare.env.PUSHER_KEY,
+    secret: context.cloudflare.env.PUSHER_SECRET,
+    cluster: context.cloudflare.env.PUSHER_CLUSTER,
   });
 
   let socket_id: string;
@@ -16,7 +14,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const contentType = request.headers.get("content-type");
   if (contentType?.includes("application/json")) {
-    const json = await request.json();
+    const json = (await request.json()) as { socket_id: string; channel_name: string };
     socket_id = json.socket_id;
     channel_name = json.channel_name;
   } else {

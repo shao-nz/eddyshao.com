@@ -9,12 +9,9 @@ import { customAlphabet } from "nanoid";
 // Pusher.logToConsole = true;
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const env = (context as any)?.cloudflare?.env as
-    | Record<string, string>
-    | undefined;
   return {
-    pusherKey: env?.PUSHER_KEY || "",
-    pusherCluster: env?.PUSHER_CLUSTER || "",
+    pusherKey: context.cloudflare.env.PUSHER_KEY || "",
+    pusherCluster: context.cloudflare.env.PUSHER_CLUSTER || "",
   };
 };
 
