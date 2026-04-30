@@ -4,7 +4,7 @@ import type { ExportedHandler } from "@cloudflare/workers-types";
 // @ts-ignore - build output has no types
 import * as build from "./build/server";
 
-const handleRequest = createRequestHandler(build);
+const handleRequest = createRequestHandler(build as any);
 
 const handler: ExportedHandler = {
   async fetch(request, env, ctx) {
