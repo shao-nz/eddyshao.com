@@ -1,3 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: pastel --default, light --prefersdark;
+}
+
+@theme {
+  --font-sans: "Rubik", "sans-serif";
+
+  --animate-connect-four-drop: drop 1s linear;
+
+  @keyframes drop {
+    from {
+      transform: translateY(-5rem);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+}
