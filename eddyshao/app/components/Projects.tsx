@@ -1,7 +1,4 @@
-import ProjectCard from "../components/ProjectCard";
-import grompSc from "../public/gromp-sc.jpg";
-import shaoSc from "../public/shao-sc.jpg";
-import haoSc from "../public/hao-sc.jpg";
+import ProjectCard from "./ProjectCard";
 
 export default function Projects() {
   return (
@@ -12,7 +9,7 @@ export default function Projects() {
           title="shao.lol"
           description="React webapp to track the match history with in-game stats and details of personal League of Legends accounts"
           stack={["React", "Vanilla CSS", "Vercel"]}
-          img={shaoSc}
+          img="/shao-sc.jpg"
           alt="Screenshot of shao.lol"
           liveUrl="https://shao.lol/"
           githubUrl="https://github.com/shao-nz/shao.lol"
@@ -21,7 +18,7 @@ export default function Projects() {
           title="Gromp"
           description="A multipurpose League of Legends Discord bot. View live game info, summoner profiles and more."
           stack={["Python", "Next.js", "Tailwind CSS", "Vercel"]}
-          img={grompSc}
+          img="/gromp-sc.jpg"
           alt="Screenshot of Gromp"
           liveUrl="https://www.gromp.gg/"
           githubUrl="https://github.com/shao-nz/gromp"
@@ -30,7 +27,7 @@ export default function Projects() {
           title="hao.works"
           description="Personal website to showcase Hao Wen's works."
           stack={["Next.js", "Vanilla CSS", "Vercel"]}
-          img={haoSc}
+          img="/hao-sc.jpg"
           alt="Screenshot of hao.works"
           liveUrl="https://hao.works/"
           githubUrl="https://github.com/shao-nz/haowen"

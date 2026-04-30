@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router";
 
 export default function Navbar() {
   const [borgir, setBorgir] = useState(false);
@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="navbar bg-gradient-to-br from-teal-200 to-violet-200 shadow-md">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link
-          href="/"
+          to="/"
           className="btn-ghost btn rounded-md text-3xl normal-case"
         >
           ES.
@@ -44,36 +44,32 @@ export default function Navbar() {
           >
             <li>
               <Link
-                href="/#about"
+                to="/#about"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
-                scroll={false}
               >
                 About
               </Link>
             </li>
             <li>
               <Link
-                href="/#projects"
+                to="/#projects"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
-                scroll={false}
               >
                 Projects
               </Link>
             </li>
             <li>
               <Link
-                href="/#contact"
+                to="/#contact"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
-                scroll={false}
               >
                 Contact
               </Link>
             </li>
             <li>
               <Link
-                href="/connectFour"
+                to="/connectFour"
                 className="block rounded-md py-1.5 pl-5 hover:bg-primary md:px-4"
-                scroll={false}
               >
                 C4
               </Link>

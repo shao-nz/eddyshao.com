@@ -1,10 +1,15 @@
 {
-  "main": ".open-next/worker.js",
   "name": "eddyshao",
   "compatibility_date": "2025-03-25",
   "compatibility_flags": ["nodejs_compat"],
+  "main": "worker.ts",
   "assets": {
-    "directory": ".open-next/assets",
+    "directory": "build/client",
     "binding": "ASSETS"
+  },
+  "build": {
+    "command": "npm run build",
+    "cwd": ".",
+    "watch_dir": "app"
   }
 }
