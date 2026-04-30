@@ -13,8 +13,8 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     | Record<string, string>
     | undefined;
   return {
-    pusherKey: env?.NEXT_PUBLIC_PUSHER_KEY || "",
-    pusherCluster: env?.NEXT_PUBLIC_PUSHER_CLUSTER || "",
+    pusherKey: env?.PUSHER_KEY || "",
+    pusherCluster: env?.PUSHER_CLUSTER || "",
   };
 };
 

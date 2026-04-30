@@ -14,7 +14,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     | Record<string, string>
     | undefined;
   return {
-    gaMeasurementId: env?.NEXT_PUBLIC_GA_MEASUREMENT_ID || "",
+    gaMeasurementId: env?.GA_MEASUREMENT_ID || "",
   };
 };
 

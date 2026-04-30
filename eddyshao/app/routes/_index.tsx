@@ -18,9 +18,9 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     | Record<string, string>
     | undefined;
   return {
-    emailjsServiceId: env?.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
-    emailjsTemplateId: env?.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
-    emailjsPublicKey: env?.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
+    emailjsServiceId: env?.EMAILJS_SERVICE_ID || "",
+    emailjsTemplateId: env?.EMAILJS_TEMPLATE_ID || "",
+    emailjsPublicKey: env?.EMAILJS_PUBLIC_KEY || "",
   };
 };
 
