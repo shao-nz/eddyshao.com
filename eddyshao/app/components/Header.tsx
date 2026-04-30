@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { Link } from "react-router";
 
 export default function Header() {
   return (
-    <header className="lg:m-auto lg:w-1/2 md:pt-15 flex justify-center">
+    <header className="md:pt-15 flex justify-center lg:m-auto lg:w-1/2">
       <div>
         <h1 className="py-3 text-3xl font-black sm:text-5xl">
           Hi, I&apos;m Eddy.
@@ -13,13 +13,13 @@ export default function Header() {
         <h3 className="text-md md:text-xl">Major: Computer Science</h3>
         <h3 className="text-md md:text-xl">Minor: Psychology</h3>
         <div className="flex flex-row justify-center gap-2 pt-2">
-          <Link href="https://github.com/shao-nz" target="_blank">
+          <Link to="https://github.com/shao-nz" target="_blank">
             <button className="btn-sm btn text-xs">GitHub</button>
           </Link>
-          <Link href="/Resume.pdf" target="_blank">
+          <Link to="/Resume.pdf" target="_blank">
             <button className="btn-sm btn text-xs">Resume</button>
           </Link>
-          <Link href="https://www.linkedin.com/in/eddyshao/" target="_blank">
+          <Link to="https://www.linkedin.com/in/eddyshao/" target="_blank">
             <button className="btn-sm btn text-xs">LinkedIn</button>
           </Link>
         </div>

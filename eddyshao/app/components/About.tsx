@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router";
 
 export default function About() {
   return (
@@ -17,7 +17,7 @@ export default function About() {
           <code>Rust</code> and backend development to expand my skillset.
         </p>
         <br />
-        <p>In my spare time, I enjoy <Link href="https://www.worldcubeassociation.org/persons/2012SHAO01" target="_blank" className="text-purple-400 underline">speedcubing</Link>, powerlifting, and playing League of Legends.</p>
+        <p>In my spare time, I enjoy <Link to="https://www.worldcubeassociation.org/persons/2012SHAO01" target="_blank" className="text-purple-400 underline">speedcubing</Link>, powerlifting, and playing League of Legends.</p>
       </div>
     </section>
   );

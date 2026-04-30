@@ -1,14 +1,17 @@
-import { ChangeEvent, useState, useRef, Ref, FormEvent } from "react";
+import { ChangeEvent, useState, useRef, FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 
-export default function Contact() {
-  const emailjsServiceId: string = process.env
-    .NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
-  const emailjsTemplateId: string = process.env
-    .NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
-  const emailjsPublicKey: string = process.env
-    .NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
+type ContactProps = {
+  emailjsServiceId: string;
+  emailjsTemplateId: string;
+  emailjsPublicKey: string;
+};
 
+export default function Contact({
+  emailjsServiceId,
+  emailjsTemplateId,
+  emailjsPublicKey,
+}: ContactProps) {
   const form = useRef<HTMLFormElement>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

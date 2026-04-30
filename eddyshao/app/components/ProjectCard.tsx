@@ -1,12 +1,10 @@
-import Link from "next/link";
-import Image, { StaticImageData } from "next/image";
-import githubLogo from "../public/github-mark.svg";
+import { Link } from "react-router";
 
 type cardProps = {
   title: string;
   description: string;
   stack: Array<string>;
-  img: StaticImageData;
+  img: string;
   alt: string;
   liveUrl: string;
   githubUrl: string;
@@ -16,7 +14,7 @@ export default function ProjectCard(props: cardProps) {
   return (
     <div className="card rounded-lg bg-base-100 shadow-2xl">
       <figure className="max-w-sm md:max-w-md">
-        <Image
+        <img
           src={props.img}
           alt={props.alt}
           className="aspect-square object-scale-down"
@@ -40,16 +38,16 @@ export default function ProjectCard(props: cardProps) {
             );
           })}
         </div>
-        <div className="card-actions flex flex-col items-center mt-auto">
-          <Link href={props.liveUrl} className="w-full" target="_blank">
+        <div className="card-actions mt-auto flex flex-col items-center">
+          <Link to={props.liveUrl} className="w-full" target="_blank">
             <button className="btn-primary btn-xs btn w-full md:btn-sm">
               Live
             </button>
           </Link>
-          <Link href={props.githubUrl} className="w-full" target="_blank">
+          <Link to={props.githubUrl} className="w-full" target="_blank">
             <button className="btn-primary btn-xs btn flex w-full gap-2 md:btn-sm">
-              <Image
-                src={githubLogo}
+              <img
+                src="/github-mark.svg"
                 alt="Github Logo"
                 className="aspect-square w-4 object-scale-down md:w-6"
               />
