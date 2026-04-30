@@ -6,5 +6,13 @@
   "assets": {
     "directory": "build/client",
     "binding": "ASSETS"
+  },
+  "vars": {
+    "GA_MEASUREMENT_ID": "G-0W50R6TEBF",
+    "EMAILJS_SERVICE_ID": "service_jdbbafg",
+    "EMAILJS_TEMPLATE_ID": "template_yij4jyn",
+    "EMAILJS_PUBLIC_KEY": "h4d6qaL2s75Fgilq3",
+    "PUSHER_KEY": "c70fdfb3f811f98b6d74",
+    "PUSHER_CLUSTER": "ap4"
   }
 }
